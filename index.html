@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root {
-      --fc-blue: #1e3a8a; /* Blau */
-      --fc-red:  #dc2626; /* Rot */
+      --fc-blue: #1e3a8a;
+      --fc-red:  #dc2626;
       --bg:      #f7f7f9;
       --text:    #111827;
       --muted:   #6b7280;
@@ -16,288 +16,184 @@
     }
     * { box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
-
-    header { background: var(--fc-blue); color: #fff; padding: 18px 24px; }
-    header .inner { max-width: 920px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; }
-    header h1 { margin: 0; font-size: 22px; letter-spacing: .2px; }
-    header .badge { background: var(--fc-red); color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600; }
-
-    .wrap { max-width: 920px; margin: 24px auto; padding: 0 16px; }
-    .card { background: var(--card); padding: 24px; border-radius: 12px; box-shadow: 0 8px 22px rgba(0,0,0,.06); border:1px solid var(--border); }
-
-    h2 { margin-top: 0; font-size: 20px; }
-    fieldset { border:1px solid var(--border); padding:16px; border-radius:10px; margin: 18px 0; }
-    legend { padding: 0 8px; font-weight: 700; color: var(--fc-blue); }
-
-    label { display:block; margin: 10px 0 6px; font-weight: 600; }
-    input, select, textarea { width: 100%; padding: 10px; border:1px solid #d1d5db; border-radius: 10px; font-size: 16px; }
-    input:focus, select:focus, textarea:focus { outline: 3px solid rgba(30,58,138,.2); border-color: var(--fc-blue); }
-
-    .row { display:grid; gap:12px; grid-template-columns: 1fr; }
-    @media (min-width: 640px) { .row-2 { grid-template-columns: 1fr 1fr; } .row-3 { grid-template-columns: 1fr 1fr 1fr; } }
-
-    .help { font-size: 12px; color: var(--muted); }
-    .hidden { display:none; }
-
-    .actions { display:flex; gap:12px; flex-wrap:wrap; }
-    .btn { padding: 12px 16px; border:0; border-radius: 999px; font-size: 16px; cursor: pointer; font-weight: 700; }
+    header { background: linear-gradient(90deg, var(--fc-blue), var(--fc-red)); color: #fff; padding: 20px 24px; }
+    header h1 { margin: 0; font-size: 22px; }
+    .wrap { max-width: 920px; margin: 28px auto; padding: 0 16px; }
+    .card { background: var(--card); padding: 28px; border-radius: 14px; box-shadow: 0 8px 22px rgba(0,0,0,.06); border:1px solid var(--border); }
+    label { font-weight: 600; margin-top: 12px; display:block; }
+    input, select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border); margin-top: 6px; font-size:16px; }
+    .btn { padding: 12px 16px; border:0; border-radius: 999px; font-size: 16px; cursor: pointer; font-weight: 700; text-decoration:none; display:inline-block; }
     .btn-primary { background: var(--fc-red); color:#fff; }
     .btn-secondary { background: var(--fc-blue); color:#fff; }
-
-    .note { font-size: 13px; color: var(--muted); margin-top: 12px; }
-
-    /* Modal fuer Zusammenfassung */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; padding: 16px; }
+    .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); align-items:center; justify-content:center; padding:16px; }
     .modal-backdrop.show { display:flex; }
-    .modal { background: #fff; max-width: 720px; width: 100%; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,.25); overflow:hidden; border:1px solid var(--border); }
-    .modal header { background: linear-gradient(90deg, var(--fc-blue), var(--fc-red)); padding: 14px 18px; }
-    .modal header h3 { margin: 0; font-size: 18px; color:#fff; }
-    .modal .content { padding: 18px; max-height: 70vh; overflow: auto; }
-    .modal .footer { padding: 16px 18px; display:flex; gap:12px; justify-content:flex-end; background:#fafafa; border-top:1px solid var(--border); }
-
-    dl { display:grid; grid-template-columns: 1fr; gap: 8px 16px; }
-    @media (min-width: 640px) { dl { grid-template-columns: 220px 1fr; } }
-    dt { color: var(--muted); font-weight: 600; }
-    dd { margin: 0; }
+    .modal { background:#fff; padding:20px; border-radius:12px; max-width:720px; width:100%; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="inner">
-      <h1>Neuer Spieler</h1>
-      <span class="badge">FC Rheineck</span>
-    </div>
-  </header>
+  <header><h1>Neuer Spieler FC Rheineck</h1></header>
 
   <div class="wrap">
     <div class="card">
-      <h2>Anmeldung</h2>
-      <p>Bitte fuelle das Formular vollstaendig aus. Felder mit * sind obligatorisch.</p>
-
       <form id="anmeldungForm"
             action="https://formsubmit.co/mniederer21@gmail.com"
             method="POST"
             enctype="multipart/form-data"
             accept-charset="utf-8">
 
-        <!-- Formsubmit Optionen -->
+        <!-- Formsubmit-Optionen -->
         <input type="hidden" name="_subject" value="Neuer Spieler – FC Rheineck">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="danke.html">
 
-        <fieldset>
-          <legend>Typ der Anmeldung *</legend>
-          <label for="typ">Bitte waehlen *</label>
-          <select id="typ" name="Typ" required>
-            <option value="">Bitte waehlen …</option>
-            <option value="Neuanmeldung">Neuanmeldung</option>
-            <option value="Transfer CH">Transfer CH</option>
-            <option value="Transfer aus dem Ausland">Transfer aus dem Ausland</option>
-          </select>
-        </fieldset>
+        <label>Art der Anmeldung *</label>
+        <select name="Anmeldung" id="typ" required>
+          <option value="">Bitte wählen</option>
+          <option>Neuanmeldung</option>
+          <option>Transfer CH</option>
+          <option>Transfer aus dem Ausland</option>
+        </select>
 
-        <fieldset>
-          <legend>Spieler – Personalien</legend>
-          <div class="row row-2">
-            <div>
-              <label for="vorname">Vorname *</label>
-              <input id="vorname" name="Vorname" type="text" required autocomplete="given-name">
-            </div>
-            <div>
-              <label for="name">Name *</label>
-              <input id="name" name="Name" type="text" required autocomplete="family-name">
-            </div>
-          </div>
+        <label>Vorname *</label>
+        <input type="text" name="Vorname" required autocomplete="given-name">
 
-          <label for="strasse">Strasse *</label>
-          <input id="strasse" name="Strasse" type="text" required autocomplete="address-line1">
+        <label>Name *</label>
+        <input type="text" name="Name" required autocomplete="family-name">
 
-          <div class="row row-3">
-            <div>
-              <label for="plz">PLZ *</label>
-              <input id="plz" name="PLZ" type="text" inputmode="numeric" pattern="^[0-9]{4}$" required placeholder="z. B. 9424" title="Vierstellige Schweizer PLZ">
-            </div>
-            <div>
-              <label for="ort">Ort *</label>
-              <input id="ort" name="Ort" type="text" required autocomplete="address-level2">
-            </div>
-            <div>
-              <label for="geburtsdatum">Geburtsdatum *</label>
-              <input id="geburtsdatum" name="Geburtsdatum" type="date" required>
-            </div>
-          </div>
+        <label>Strasse *</label>
+        <input type="text" name="Strasse" required autocomplete="address-line1">
 
-          <div class="row row-2">
-            <div>
-              <label for="email">E-Mailadresse *</label>
-              <input id="email" name="E-Mail" type="email" required autocomplete="email" placeholder="name@domain.ch">
-            </div>
-            <div>
-              <label for="tel">Tel. Nr. *</label>
-              <input id="tel" name="Telefon" type="tel" required placeholder="+41 79 123 45 67"
-                     pattern="^[0-9+()\-\s]{7,20}$" title="Bitte gueltige Telefonnummer angeben">
-            </div>
-          </div>
-        </fieldset>
+        <label>PLZ *</label>
+        <input type="text" name="PLZ" required inputmode="numeric" pattern="^[0-9]{4}$" title="Vierstellige Schweizer PLZ">
 
-        <fieldset id="fs-ausweise" class="hidden">
-          <legend>Ausweis (nur bei Neuanmeldung)</legend>
-          <label for="id-vorderseite">ID Vorderseite *</label>
-          <input id="id-vorderseite" name="ID_Vorderseite" type="file" accept="image/*,.pdf">
-          <span class="help">Zulaessig: Bild oder PDF. <strong>Gesamtlimit aller Anhaenge: 5 MB</strong></span>
+        <label>Ort *</label>
+        <input type="text" name="Ort" required autocomplete="address-level2">
 
-          <label for="id-rueckseite">ID Rueckseite *</label>
-          <input id="id-rueckseite" name="ID_Rueckseite" type="file" accept="image/*,.pdf">
-          <span class="help">Zulaessig: Bild oder PDF. <strong>Gesamtlimit aller Anhaenge: 5 MB</strong></span>
-        </fieldset>
+        <label>E-Mailadresse *</label>
+        <input type="email" name="Email" required autocomplete="email">
 
-        <fieldset>
-          <legend>Foto</legend>
-          <label for="foto">Foto vom Spieler *</label>
-          <input id="foto" name="Foto_Spieler" type="file" accept="image/*" required>
-          <span class="help">Zulaessig: JPG/PNG/WEBP. <strong>Gesamtlimit aller Anhaenge: 5 MB</strong></span>
-        </fieldset>
+        <label>Tel.Nr. *</label>
+        <input type="tel" name="Telefon" required placeholder="+41 79 123 45 67" pattern="^[0-9+()\\-\\s]{7,20}$" title="Bitte gültige Telefonnummer angeben">
 
-        <div class="actions">
-          <button type="button" class="btn btn-primary" id="btn-review">Weiter zur Uebersicht</button>
-          <button type="reset" class="btn btn-secondary">Zuruecksetzen</button>
+        <label>Geburtsdatum *</label>
+        <input type="date" name="Geburtsdatum" required>
+
+        <div id="ausweisBlock" style="margin-top:10px;">
+          <label>ID Vorderseite (nur bei Neuanmeldung)</label>
+          <input type="file" name="ID_Vorne" id="idV" accept="image/*,.pdf">
+
+          <label>ID Rückseite (nur bei Neuanmeldung)</label>
+          <input type="file" name="ID_Hinten" id="idR" accept="image/*,.pdf">
         </div>
 
-        <p class="note">Hinweis: Sind die Bilder zu Gross? Tipp: Schick sie dir selbst per Whatsapp und speichere sie und versuche es nochmals.</p>
+        <label>Foto vom Spieler *</label>
+        <input type="file" name="Foto" id="foto" accept="image/*" required>
+
+        <!-- Versteckter nativer Submit-Button (garantiert POST) -->
+        <button type="submit" id="real-submit" style="display:none" aria-hidden="true"></button>
+
+        <div style="margin-top:16px;">
+          <button type="button" class="btn btn-primary" id="btn-show-summary">Weiter zur Übersicht</button>
+          <button type="reset" class="btn btn-secondary">Zurücksetzen</button>
+        </div>
+
+        <p style="color:#6b7280;margin-top:10px;">Hinweis: Bilder zu Gross? Tipp: sende dir die Bilder selbst per Whats'app und speichere sie auf dem Handy. Dann versuche es nochmals. ;)</p>
       </form>
     </div>
   </div>
 
-  <!-- Modal: Zusammenfassung vor dem Senden -->
-  <div class="modal-backdrop" id="reviewBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reviewTitle">
-      <header><h3 id="reviewTitle">Zusammenfassung deiner Eingaben</h3></header>
-      <div class="content">
-        <dl id="reviewList"></dl>
-      </div>
-      <div class="footer">
-        <button class="btn btn-secondary" id="btn-edit">Zurueck bearbeiten</button>
-        <button class="btn btn-primary" id="btn-submit" type="submit" form="anmeldungForm">Jetzt senden</button>
+  <!-- Modal: Zusammenfassung -->
+  <div class="modal-backdrop" id="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="summaryTitle">
+      <h3 id="summaryTitle">Bitte prüfe deine Angaben</h3>
+      <div id="summary"></div>
+      <div style="margin-top:12px; display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn btn-secondary" id="btn-cancel" type="button">Abbrechen</button>
+        <button class="btn btn-primary" id="btn-submit" type="button">Jetzt senden</button>
       </div>
     </div>
   </div>
 
-  <script>
-    const form = document.getElementById('anmeldungForm');
-    const typ = document.getElementById('typ');
-    const fsAusweise = document.getElementById('fs-ausweise');
-    const idV = document.getElementById('id-vorderseite');
-    const idR = document.getElementById('id-rueckseite');
-    const foto = document.getElementById('foto');
+<script>
+  const form = document.getElementById('anmeldungForm');
+  const typ  = document.getElementById('typ');
+  const btnShowSummary = document.getElementById('btn-show-summary');
+  const btnSubmit = document.getElementById('btn-submit');
+  const btnCancel = document.getElementById('btn-cancel');
+  const backdrop = document.getElementById('modal-backdrop');
+  const summaryDiv = document.getElementById('summary');
+  const idV = document.getElementById('idV');
+  const idR = document.getElementById('idR');
+  const foto = document.getElementById('foto');
+  const MAX_TOTAL_MB = 5;
 
-    function updateAusweise() {
-      const isNeu = typ.value === 'Neuanmeldung';
-      fsAusweise.classList.toggle('hidden', !isNeu);
-      idV.required = isNeu;
-      idR.required = isNeu;
+  // Bei Neuanmeldung sind die Ausweis-Felder Pflicht, sonst nicht
+  function toggleAusweisPflicht() {
+    const isNeu = typ.value === 'Neuanmeldung';
+    idV.required = isNeu;
+    idR.required = isNeu;
+  }
+  typ.addEventListener('change', toggleAusweisPflicht);
+  toggleAusweisPflicht();
+
+  function fileSizeMB(f){ return f ? (f.size/1024/1024) : 0; }
+  function totalSizeMB(){
+    let sum = 0;
+    if (idV.files[0]) sum += fileSizeMB(idV.files[0]);
+    if (idR.files[0]) sum += fileSizeMB(idR.files[0]);
+    if (foto.files[0]) sum += fileSizeMB(foto.files[0]);
+    return sum;
+  }
+  function enforceTotalLimit(){
+    const sum = totalSizeMB();
+    if (sum > MAX_TOTAL_MB){
+      alert(`Die Gesamtgrösse der Anhänge beträgt ${sum.toFixed(2)} MB und überschreitet das Limit von ${MAX_TOTAL_MB} MB.`);
+      return false;
     }
-    typ.addEventListener('change', updateAusweise);
-    updateAusweise();
+    return true;
+  }
+  [idV, idR, foto].forEach(el => el && el.addEventListener('change', enforceTotalLimit));
 
-    // Gesamt-Groessenpruefung (max. 5 MB fuer alle Anhaenge zusammen)
-    const MAX_TOTAL_MB = 5;
-    function fileSizeMB(f){ return f ? (f.size/1024/1024) : 0; }
-    function totalSizeMB(){
-      let sum = 0;
-      if (idV && idV.files && idV.files[0]) sum += fileSizeMB(idV.files[0]);
-      if (idR && idR.files && idR.files[0]) sum += fileSizeMB(idR.files[0]);
-      if (foto && foto.files && foto.files[0]) sum += fileSizeMB(foto.files[0]);
-      return { sum };
-    }
-    function enforceTotalLimit(showAlert=true){
-      const { sum } = totalSizeMB();
-      if (sum > MAX_TOTAL_MB){
-        if (showAlert) alert(`Die Gesamtgroesse der Anhaenge betraegt ${sum.toFixed(2)} MB und uebersteigt das Limit von ${MAX_TOTAL_MB} MB. Bitte kleinere Dateien waehlen.`);
-        return false;
-      }
-      return true;
-    }
-    [idV, idR, foto].forEach(el => el && el.addEventListener('change', () => enforceTotalLimit()));
+  function filename(input){ return input.files[0] ? input.files[0].name : '—'; }
+  function add(label,value){ summaryDiv.innerHTML += `<p><strong>${label}:</strong> ${value}</p>`; }
 
-    // Zusammenfassung vor dem Senden
-    const btnReview = document.getElementById('btn-review');
-    const backdrop = document.getElementById('reviewBackdrop');
-    const reviewList = document.getElementById('reviewList');
-    const btnEdit = document.getElementById('btn-edit');
-    const btnSubmit = document.getElementById('btn-submit');
+  btnShowSummary.addEventListener('click', () => {
+    if (!form.reportValidity()) return;
+    if (!enforceTotalLimit()) return;
 
-    function fmtDate(iso) {
-      if (!iso) return '';
-      const d = new Date(iso);
-      if (isNaN(d)) return iso;
-      const dd = String(d.getDate()).padStart(2,'0');
-      const mm = String(d.getMonth()+1).padStart(2,'0');
-      const yyyy = d.getFullYear();
-      return `${dd}.${mm}.${yyyy}`;
-    }
-
-    function filename(input) {
-      const f = input && input.files && input.files[0];
-      if (!f) return '— (keine Datei gewaehlt)';
-      const mb = (f.size/1024/1024).toFixed(2);
-      return `${f.name} (${mb} MB)`;
-    }
-
-    function showReview() {
-      // Pflichtfelder + Groessenlimit pruefen
-      if (!form.reportValidity()) return;
-      if (!enforceTotalLimit()) return;
-
-      reviewList.innerHTML = '';
-      const add = (dt, dd) => {
-        const dte = document.createElement('dt'); dte.textContent = dt; reviewList.appendChild(dte);
-        const dde = document.createElement('dd'); dde.textContent = dd || '—'; reviewList.appendChild(dde);
-      };
-
-      add('Typ', typ.value);
-      add('Vorname', document.getElementById('vorname').value);
-      add('Name', document.getElementById('name').value);
-      add('Strasse', document.getElementById('strasse').value);
-      add('PLZ', document.getElementById('plz').value);
-      add('Ort', document.getElementById('ort').value);
-      add('Geburtsdatum', fmtDate(document.getElementById('geburtsdatum').value));
-      add('E-Mailadresse', document.getElementById('email').value);
-      add('Tel. Nr.', document.getElementById('tel').value);
-
-      const isNeu = typ.value === 'Neuanmeldung';
-      add('ID Vorderseite', isNeu ? filename(idV) : 'nicht erforderlich');
-      add('ID Rueckseite',  isNeu ? filename(idR) : 'nicht erforderlich');
-      add('Foto vom Spieler', filename(foto));
-
-      const total = totalSizeMB().sum;
-      add('Gesamtgroesse Anhaenge', `${total.toFixed(2)} MB (Limit: ${MAX_TOTAL_MB} MB)`);
-
-      backdrop.classList.add('show');
-      backdrop.setAttribute('aria-hidden','false');
-      btnSubmit.focus();
-    }
-
-    btnReview.addEventListener('click', showReview);
-
-    btnEdit.addEventListener('click', () => {
-      backdrop.classList.remove('show');
-      backdrop.setAttribute('aria-hidden','true');
+    summaryDiv.innerHTML = '';
+    // Textfelder/Select
+    const fields = ['Anmeldung','Vorname','Name','Strasse','PLZ','Ort','Email','Telefon','Geburtsdatum'];
+    fields.forEach(n => {
+      const el = form.elements[n];
+      if (el) add(n, el.value);
     });
+    // Dateien
+    add('ID Vorderseite', filename(idV));
+    add('ID Rückseite', filename(idR));
+    add('Foto vom Spieler', filename(foto));
+    add('Gesamtgrösse Anhänge', `${totalSizeMB().toFixed(2)} MB (Limit: ${MAX_TOTAL_MB} MB)`);
 
-    btnSubmit.addEventListener('click', (e) => {
-      if (!enforceTotalLimit()) {
-        e.preventDefault(); // verhindern, falls Limit ueberschritten
-      }
-    });
+    backdrop.classList.add('show');
+    backdrop.setAttribute('aria-hidden','false');
+  });
 
-    // ESC schliesst das Modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && backdrop.classList.contains('show')) {
-        backdrop.classList.remove('show');
-        backdrop.setAttribute('aria-hidden','true');
-      }
-    });
-  </script>
+  btnSubmit.addEventListener('click', () => {
+    if (!enforceTotalLimit()) return;
+    backdrop.classList.remove('show');
+    backdrop.setAttribute('aria-hidden','true');
+    if (typeof form.requestSubmit === 'function') {
+      form.requestSubmit();                // nativer Submit → POST
+    } else {
+      document.getElementById('real-submit').click(); // Fallback
+    }
+  });
+
+  btnCancel.addEventListener('click', () => {
+    backdrop.classList.remove('show');
+    backdrop.setAttribute('aria-hidden','true');
+  });
+</script>
 </body>
 </html>
