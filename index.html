@@ -17,7 +17,6 @@
     * { box-sizing: border-box; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
 
-    /* Kopfbereich in Blau mit roter Akzentlinie */
     header { background: var(--fc-blue); color: #fff; padding: 18px 24px; }
     header .inner { max-width: 920px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; }
     header h1 { margin: 0; font-size: 22px; letter-spacing: .2px; }
@@ -82,7 +81,7 @@
             accept-charset="utf-8">
 
         <!-- Formsubmit Optionen -->
-        <input type="hidden" name="_subject" value="Neuer Spieler – FC Rheineck">
+        <input type="hidden" name="_subject" value="Neuer Spieler">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="danke.html">
@@ -146,18 +145,18 @@
           <legend>Ausweis (nur bei Neuanmeldung)</legend>
           <label for="id-vorderseite">ID Vorderseite *</label>
           <input id="id-vorderseite" name="ID_Vorderseite" type="file" accept="image/*,.pdf">
-          <span class="help">Zulaessig: Bild oder PDF, max. 10 MB</span>
+          <span class="help">Zulaessig: Bild oder PDF. <strong>Gesamtlimit aller Anhaenge: 5 MB</strong></span>
 
           <label for="id-rueckseite">ID Rueckseite *</label>
           <input id="id-rueckseite" name="ID_Rueckseite" type="file" accept="image/*,.pdf">
-          <span class="help">Zulaessig: Bild oder PDF, max. 10 MB</span>
+          <span class="help">Zulaessig: Bild oder PDF. <strong>Gesamtlimit aller Anhaenge: 5 MB</strong></span>
         </fieldset>
 
         <fieldset>
           <legend>Foto</legend>
           <label for="foto">Foto vom Spieler *</label>
           <input id="foto" name="Foto_Spieler" type="file" accept="image/*" required>
-          <span class="help">Zulaessig: JPG/PNG/WEBP, max. 10 MB</span>
+          <span class="help">Zulaessig: JPG/PNG/WEBP. <strong>Gesamtlimit aller Anhaenge: 5 MB</strong></span>
         </fieldset>
 
         <div class="actions">
@@ -165,7 +164,7 @@
           <button type="reset" class="btn btn-secondary">Zuruecksetzen</button>
         </div>
 
-        <p class="note">Hinweis: Datei-Groesse wird beim Auswaehlen geprueft. Die Ausweisfelder erscheinen nur bei "Neuanmeldung".</p>
+        <p class="note">Hinweis: Gesamtgroesse der Anhaenge max. 5 MB; wird beim Auswaehlen geprueft.</p>
       </form>
     </div>
   </div>
@@ -201,17 +200,25 @@
     typ.addEventListener('change', updateAusweise);
     updateAusweise();
 
-    // Clientseitige Groessenpruefung (10 MB pro Datei)
-    const MAX_MB = 10;
-    function tooLarge(file) { return file && file.size > MAX_MB * 1024 * 1024; }
-    function checkFileInput(input) {
-      const f = input.files && input.files[0];
-      if (tooLarge(f)) {
-        alert(`Die Datei "${f.name}" ist groesser als ${MAX_MB} MB.`);
-        input.value = '';
-      }
+    // Gesamt-Groessenpruefung (max. 5 MB fuer alle Anhaenge zusammen)
+    const MAX_TOTAL_MB = 5;
+    function fileSizeMB(f){ return f ? (f.size/1024/1024) : 0; }
+    function totalSizeMB(){
+      let sum = 0;
+      if (idV && idV.files && idV.files[0]) sum += fileSizeMB(idV.files[0]);
+      if (idR && idR.files && idR.files[0]) sum += fileSizeMB(idR.files[0]);
+      if (foto && foto.files && foto.files[0]) sum += fileSizeMB(foto.files[0]);
+      return { sum };
     }
-    [idV, idR, foto].forEach(el => el && el.addEventListener('change', () => checkFileInput(el)));
+    function enforceTotalLimit(showAlert=true){
+      const { sum } = totalSizeMB();
+      if (sum > MAX_TOTAL_MB){
+        if (showAlert) alert(`Die Gesamtgroesse der Anhaenge betraegt ${sum.toFixed(2)} MB und uebersteigt das Limit von ${MAX_TOTAL_MB} MB. Bitte kleinere Dateien waehlen.`);
+        return false;
+      }
+      return true;
+    }
+    [idV, idR, foto].forEach(el => el && el.addEventListener('change', () => enforceTotalLimit()));
 
     // Zusammenfassung vor dem Senden
     const btnReview = document.getElementById('btn-review');
@@ -238,8 +245,9 @@
     }
 
     function showReview() {
-      // Pruefung: erst alle Pflichtfelder validieren
+      // Pflichtfelder + Groessenlimit pruefen
       if (!form.reportValidity()) return;
+      if (!enforceTotalLimit()) return;
 
       reviewList.innerHTML = '';
       const add = (dt, dd) => {
@@ -262,6 +270,9 @@
       add('ID Rueckseite',  isNeu ? filename(idR) : 'nicht erforderlich');
       add('Foto vom Spieler', filename(foto));
 
+      const total = totalSizeMB().sum;
+      add('Gesamtgroesse Anhaenge', `${total.toFixed(2)} MB (Limit: ${MAX_TOTAL_MB} MB)`);
+
       backdrop.classList.add('show');
       backdrop.setAttribute('aria-hidden','false');
       btnSubmit.focus();
@@ -275,6 +286,7 @@
     });
 
     btnSubmit.addEventListener('click', () => {
+      if (!enforceTotalLimit()) return;
       // Endgueltig senden
       form.submit();
     });
